@@ -1,0 +1,20 @@
+<div class="gallery">
+  {{ $files := readDir ("/content/monsters/") }}
+  {{ $imagePairs := slice }}
+  {{ range $files }}
+    {{ if (and (not .IsDir) (in (slice ".webp") (path.Ext .Name))) }}
+      {{ $filename := .Name | replaceRE "-(ascii|fantasy).webp" "" }}
+      {{ if not (in $imagePairs $filename) }}
+        {{ $imagePairs = $imagePairs | append $filename }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ range $imagePairs }}
+    <div class="gallery-item">
+      <h2>{{ . }}</h2>
+      <img src="{{ . }}-ascii.webp" alt="{{ . }} ASCII-art inspired style" title="{{ . }} ASCII-art inspired style">
+      <img src="{{ . }}-fantasy.webp" alt="{{ . }} in fantasy movie style" title="{{ . }} in fantasy movie style">
+    </div>
+  {{ end }}
+</div>

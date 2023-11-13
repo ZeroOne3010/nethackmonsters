@@ -4,6 +4,3 @@ title = 'The Illustrated NetHack Monsters'
 #theme = 'ananke'
 theme = 'risotto'
 sectionPagesMenu = 'main'
-
-[markup.goldmark.renderer]
-unsafe= true
