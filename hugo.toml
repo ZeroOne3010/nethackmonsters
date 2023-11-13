@@ -1,6 +1,5 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://zeroone3010.github.io/nethackmonsters/'
 languageCode = 'en-us'
 title = 'The Illustrated NetHack Monsters'
-#theme = 'ananke'
 theme = 'risotto'
 sectionPagesMenu = 'main'
