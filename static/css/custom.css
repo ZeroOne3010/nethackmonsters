@@ -4,3 +4,52 @@
 .gallery-item img {
   width: 48%;
 }
+h2 > span {
+  background-color: black;
+  padding: 0px 2px;
+}
+.black {
+  color: #000000;
+}
+.blue {
+  color: #0000aa;
+}
+.green {
+  color: #00aa00;
+}
+.cyan {
+  color: #00aaaa;
+}
+.red {
+  color: #aa0000;
+}
+.magenta {
+  color: #aa00aa;
+}
+.brown {
+  color: #aa5500;
+}
+.lightgray {
+  color: #aaaaaa;
+}
+.darkgray {
+  color: #555555;
+}
+.brightgreen {
+  color: #55ff55;
+}
+.brightcyan {
+  color: #55ffff;
+}
+.orange {
+  color: #ff5555;
+}
+.brightmagenta {
+  color: #ff55ff;
+}
+.yellow {
+  color: #ffff55;
+}
+.white {
+  color: #ffffff;
+}
