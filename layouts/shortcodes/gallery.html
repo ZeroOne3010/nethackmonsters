@@ -18,7 +18,7 @@
 
   {{ range $imagePairs }}
     <div class="gallery-item">
-      <h2><span class="{{ .color }}">{{ .symbol | replaceRE "0amp" "&" | replaceRE "0apos" "'" | replaceRE "0at" "@" | replaceRE "0colon" ":" }}</span> {{ .name | replaceRE "_" " " }}</h2>
+      <h2><span class="{{ .color }}">{{ .symbol | replaceRE "0amp" "&" | replaceRE "0apos" "'" | replaceRE "0at" "@" | replaceRE "0colon" ":" | replaceRE "0semi" ";" }}</span> {{ .name | replaceRE "_" " " }}</h2>
       <img src="{{ .symbol }}-{{ .name }}-{{ .color }}-ascii.webp" loading="eager" alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style" title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style">
       <img src="{{ .symbol }}-{{ .name }}-{{ .color }}-fantasy.webp" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
     </div>
