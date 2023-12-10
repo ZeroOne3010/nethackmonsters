@@ -8,19 +8,37 @@
       {{ $symbol := index $filenameParts 0 }}
       {{ $name := index $filenameParts 1 }}
       {{ $color := index $filenameParts 2 }}
-      {{ $baseName := printf "%s-%s-%s" $symbol $color $name }}
+      {{ $baseName := printf "%s-%s-%s" $symbol $name $color }}
       {{ if not (in $baseNames $baseName) }}
         {{ $baseNames = $baseNames | append $baseName }}
-        {{ $imagePairs = $imagePairs | append (dict "symbol" $symbol "color" $color "name" $name) }}
+        {{ $imagePairs = $imagePairs | append (dict "symbol" $symbol "color" $color "name" $name "baseName" $baseName) }}
       {{ end }}
     {{ end }}
   {{ end }}
 
   {{ range $imagePairs }}
+    {{ $retroVersionFilename := printf "monsters/%s-ascii.webp" .baseName }}
+    {{ $retroImage := resources.Get $retroVersionFilename }}
+    {{ $pngVersion := $retroImage.Resize "512x512 NearestNeighbor" }}
+    {{ $pngVersion := $pngVersion.Process "png" }}
+
+    {{ $fantasyVersionFilename := printf "monsters/%s-fantasy.webp" .baseName }}
+    {{ $fantasyImage := resources.Get $fantasyVersionFilename }}
+    {{ $jpgVersion := $fantasyImage.Resize "512x512 Lancoz" }}
+    {{ $jpgVersion := $jpgVersion.Process "jpg" }}
+
     <div class="gallery-item" id="{{ .name }}">
       <h2><span class="{{ .color }}">{{ .symbol | replaceRE "0amp" "&" | replaceRE "0apos" "'" | replaceRE "0at" "@" | replaceRE "0colon" ":" | replaceRE "0semi" ";" }}</span> {{ .name | replaceRE "_" " " }}</h2>
-      <img src="{{ .symbol }}-{{ .name }}-{{ .color }}-ascii.webp" loading="eager" alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style" title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style">
-      <img src="{{ .symbol }}-{{ .name }}-{{ .color }}-fantasy.webp" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
+
+      <picture>
+        <source srcset="{{ $retroImage.RelPermalink }}" type="image/webp" />
+        <img src="{{ $pngVersion.RelPermalink }}" loading="eager" alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style" title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style">
+      </picture>
+
+      <picture>
+        <source srcset="{{ $fantasyImage.RelPermalink }}" type="image/webp" />
+        <img src="$jpgVersion.RelPermalink" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
+      </picture>
     </div>
   {{ end }}
 </div>
