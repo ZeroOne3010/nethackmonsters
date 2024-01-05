@@ -13,3 +13,8 @@ Find some ChatGPT&nbsp;4 AI-generated texts about NetHack here:
 - [Texts](texts/)
 
 The purpose of this site is twofold: first, obviously to illustrate the monsters, which normally are represented by just colored letters, but second, to document the state of generative AI as of late 2023.
+
+# External resources
+
+- [NetHack Home Page](https://www.nethack.org/) -- The offical home of NetHack
+- [The NetHackWiki](https://nethackwiki.com/) -- One big spoiler and your definitive guide of everything in NetHack
