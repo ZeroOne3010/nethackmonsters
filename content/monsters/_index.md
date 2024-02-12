@@ -1,6 +1,6 @@
 +++
 title = 'Monsters'
-monsterToc = true
+content_directory = 'monsters'
 +++
 
 {{< gallery >}}

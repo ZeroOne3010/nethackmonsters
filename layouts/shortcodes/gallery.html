@@ -1,5 +1,7 @@
 <div class="gallery">
-  {{ $files := readDir ("/assets/monsters/") }}
+  {{ $subdir := .Page.Params.content_directory | default "" }}
+  {{ $path := printf "/assets/%s" $subdir }}
+  {{ $files := readDir $path }}
   {{ $imagePairs := slice }}
   {{ $baseNames := slice }}
   {{ range $files }}
@@ -17,18 +19,27 @@
   {{ end }}
 
   {{ range $imagePairs }}
-    {{ $retroVersionFilename := printf "monsters/%s-ascii.webp" .baseName }}
+    {{ $retroVersionFilename := printf "%s/%s-ascii.webp" $subdir .baseName }}
     {{ $retroImage := resources.Get $retroVersionFilename }}
     {{ $pngVersion := $retroImage.Resize "512x512 NearestNeighbor" }}
     {{ $pngVersion := $pngVersion.Process "png" }}
 
-    {{ $fantasyVersionFilename := printf "monsters/%s-fantasy.webp" .baseName }}
+    {{ $fantasyVersionFilename := printf "%s/%s-fantasy.webp" $subdir .baseName }}
     {{ $fantasyImage := resources.Get $fantasyVersionFilename }}
     {{ $jpgVersion := $fantasyImage.Resize "512x512 Lancoz" }}
     {{ $jpgVersion := $jpgVersion.Process "jpg" }}
 
     <div class="gallery-item" id="{{ .name }}">
-      <h2><span class="{{ .color }}">{{ .symbol | replaceRE "0amp" "&" | replaceRE "0apos" "'" | replaceRE "0at" "@" | replaceRE "0colon" ":" | replaceRE "0semi" ";" }}</span> {{ .name | replaceRE "_" " " }}</h2>
+      <h2><span class="{{ .color }}">{{ .symbol
+        | replaceRE "0rparen" ")"
+        | replaceRE "0lparen" "("
+        | replaceRE "0asterisk" "*"
+        | replaceRE "0quote" "\""
+        | replaceRE "0amp" "&"
+        | replaceRE "0apos" "'"
+        | replaceRE "0at" "@"
+        | replaceRE "0colon" ":"
+        | replaceRE "0semi" ";" }}</span> {{ .name | replaceRE "_" " " }}</h2>
 
       <picture>
         <source srcset="{{ $retroImage.RelPermalink }}" type="image/webp" />

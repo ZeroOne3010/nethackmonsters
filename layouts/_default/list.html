@@ -12,7 +12,7 @@
 {{ end }}
 
 {{define "aside" }}
-    {{ if .Params.monsterToc }}
-        {{ partial "monstertoc.html" . }}
+    {{ if .Params.content_directory }}
+        {{ partial "tableofcontents.html" . }}
     {{ end }}
 {{ end }}
