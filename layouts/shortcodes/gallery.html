@@ -48,7 +48,7 @@
 
       <picture>
         <source srcset="{{ $fantasyImage.RelPermalink }}" type="image/webp" />
-        <img src="$jpgVersion.RelPermalink" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
+        <img src="{{ $jpgVersion.RelPermalink }}" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
       </picture>
     </div>
   {{ end }}
