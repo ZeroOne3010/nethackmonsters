@@ -39,7 +39,9 @@
         | replaceRE "0apos" "'"
         | replaceRE "0at" "@"
         | replaceRE "0colon" ":"
-        | replaceRE "0semi" ";" }}</span> {{ .name | replaceRE "_" " " }}</h2>
+        | replaceRE "0semi" ";" }}</span>
+        <a href="https://nethackwiki.com/wiki/{{ .name }}">{{ .name | replaceRE "_" " " }}</a>
+      </h2>
 
       <picture>
         <source srcset="{{ $retroImage.RelPermalink }}" type="image/webp" />
