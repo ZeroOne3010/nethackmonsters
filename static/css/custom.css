@@ -1,3 +1,6 @@
+.main-nav li h1 {
+  text-transform: none;
+}
 .gallery-item h2 {
   padding-bottom: 5px;
 }
