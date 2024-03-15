@@ -27,6 +27,8 @@
           {{ .symbol
             | replaceRE "0rparen" ")"
             | replaceRE "0lparen" "("
+            | replaceRE "0rsqparen" "]"
+            | replaceRE "0lsqparen" "["
             | replaceRE "0asterisk" "*"
             | replaceRE "0quote" "\""
             | replaceRE "0amp" "&"
