@@ -29,6 +29,11 @@
     {{ $jpgVersion := $fantasyImage.Resize "512x512 Lancoz" }}
     {{ $jpgVersion := $jpgVersion.Process "jpg" }}
 
+    {{ $videoFilenameAscii := printf "assets/%s/%s-ascii.mp4" $subdir .baseName }}
+    {{ $videoFilenameFantasy := printf "assets/%s/%s-fantasy.mp4" $subdir .baseName }}
+    {{ $videoExistsAscii := (fileExists (printf "static/%s" $videoFilenameAscii)) }}
+    {{ $videoExistsFantasy := (fileExists (printf "static/%s" $videoFilenameFantasy)) }}
+
     <div class="gallery-item" id="{{ .name }}">
       <h2><span class="{{ .color }}">{{ .symbol
         | replaceRE "0rparen" ")"
@@ -47,13 +52,87 @@
 
       <picture>
         <source srcset="{{ $retroImage.RelPermalink }}" type="image/webp" />
-        <img src="{{ $pngVersion.RelPermalink }}" loading="eager" alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style" title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style">
+        <img class="image-to-video" 
+             src="{{ $pngVersion.RelPermalink }}" 
+             loading="eager" 
+             alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             width="{{ $pngVersion.Width }}"
+             height="{{ $pngVersion.Height }}"
+             {{ if $videoExistsAscii }}data-video-src="../{{ $videoFilenameAscii }}"{{ end }}>
       </picture>
 
       <picture>
         <source srcset="{{ $fantasyImage.RelPermalink }}" type="image/webp" />
-        <img src="{{ $jpgVersion.RelPermalink }}" loading="lazy" alt="{{ .name | replaceRE "_" " " }} in fantasy movie style" title="{{ .name | replaceRE "_" " " }} in fantasy movie style">
+        <img class="image-to-video" 
+             src="{{ $jpgVersion.RelPermalink }}" 
+             loading="lazy" 
+             alt="{{ .name | replaceRE "_" " " }} in fantasy movie style"
+             title="{{ .name | replaceRE "_" " " }} in fantasy movie style"
+             width="{{ $jpgVersion.Width }}"
+             height="{{ $jpgVersion.Height }}"
+             {{ if $videoExistsFantasy }}data-video-src="../{{ $videoFilenameFantasy }}"{{ end }}>
       </picture>
     </div>
   {{ end }}
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      const images = document.querySelectorAll('.image-to-video[data-video-src]');
+
+      images.forEach(img => {
+        setupImageVideoToggle(img);
+      });
+
+      function setupImageVideoToggle(img) {
+        const videoSrc = img.getAttribute('data-video-src');
+
+        if (!videoSrc) {
+          return;
+        }
+
+        let video = null;
+
+        function createVideo() {
+          if (video) {
+            return;
+          }
+
+          video = document.createElement('video');
+          video.src = videoSrc;
+          video.autoplay = true;
+          video.loop = true;
+          video.muted = true;
+          video.setAttribute('width', img.width);
+          video.setAttribute('height', img.height);
+
+          video.addEventListener('click', function() {
+            video.replaceWith(img);
+          });
+        }
+
+        img.addEventListener('click', function() {
+          createVideo();
+          video.currentTime = 0;
+          img.replaceWith(video);
+          video.play();
+        });
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+              // Delay of 1 second before replacing the image
+              setTimeout(() => {
+                createVideo();
+                img.replaceWith(video);
+                observer.unobserve(img);
+              }, 1000);
+            }
+          });
+        }, { threshold: 0.75 });
+
+        observer.observe(img);
+      }
+    });
+  </script>
 </div>
