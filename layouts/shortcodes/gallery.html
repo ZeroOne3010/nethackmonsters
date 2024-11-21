@@ -1,19 +1,46 @@
-<label>
-  <input type="checkbox" id="retroToggle"> Show only the retro images
-</label>
-<script type="text/javascript">
-  const checkbox = document.getElementById('retroToggle');
+<div id="controls">
+  <input type="checkbox" id="retroToggle">
+  <label for="retroToggle"> Show only retro images</label>
+  <input type="checkbox" id="smallToggle" disabled>
+  <label for="smallToggle" title="It is only possible to view the retro images as small ones"> Small images (64x64)</label>
+</div>
 
-  checkbox.addEventListener('change', () => {
-    const fantasyImages = document.querySelectorAll('.fantasy');
+<script>
+  const retroCheckbox = document.getElementById('retroToggle');
+  const smallCheckbox = document.getElementById('smallToggle');
 
-    if (checkbox.checked) {
-      fantasyImages.forEach(img => img.style.display = 'none');
+  const toggleSmallImages = () => {
+    const smallRetroImages = document.querySelectorAll('.small-retro');
+    const retroImages = document.querySelectorAll('.retro');
+    if (smallCheckbox.checked) {
+      smallRetroImages.forEach(img => img.style.display = '');
+      retroImages.forEach(img => img.style.display = 'none');
     } else {
-      fantasyImages.forEach(img => img.style.display = '');
+      smallRetroImages.forEach(img => img.style.display = 'none');
+      retroImages.forEach(img => img.style.display = '');
     }
+  };
+
+  retroCheckbox.addEventListener('change', () => {
+    const smallRetroImages = document.querySelectorAll('.small-retro');
+    const retroImages = document.querySelectorAll('.retro');
+    const fantasyImages = document.querySelectorAll('.fantasy');
+    if (retroCheckbox.checked) {
+      retroImages.forEach(img => img.style.display = '');
+      fantasyImages.forEach(img => img.style.display = 'none');
+      smallCheckbox.disabled = false;
+    } else {
+      retroImages.forEach(img => img.style.display = '');
+      fantasyImages.forEach(img => img.style.display = '');
+      smallCheckbox.disabled = true;
+      smallCheckbox.checked = false;
+    }
+    toggleSmallImages();
   });
+
+  smallCheckbox.addEventListener('change', toggleSmallImages);
 </script>
+
 <div class="gallery">
   {{ $subdir := .Page.Params.content_directory | default "" }}
   {{ $path := printf "/assets/%s" $subdir }}
@@ -40,6 +67,9 @@
     {{ $pngVersion := $retroImage.Resize "512x512 NearestNeighbor" }}
     {{ $pngVersion := $pngVersion.Process "png" }}
 
+    {{ $smallRetroImage := $retroImage.Resize "64x64 NearestNeighbor" }}
+    {{ $smallRetroImage := $smallRetroImage.Process "gif" }}
+
     {{ $fantasyVersionFilename := printf "%s/%s-fantasy.webp" $subdir .baseName }}
     {{ $fantasyImage := resources.Get $fantasyVersionFilename }}
     {{ $jpgVersion := $fantasyImage.Resize "512x512 Lancoz" }}
@@ -51,7 +81,14 @@
     {{ $videoExistsFantasy := (fileExists (printf "static/%s" $videoFilenameFantasy)) }}
 
     <div class="gallery-item" id="{{ .name }}">
-      <h2><span class="{{ .color }}">{{ .symbol
+      <h2>
+        <img class="small-retro" 
+             src="{{ $smallRetroImage.RelPermalink }}" 
+             alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             style="display: none; height: 64px; width: 64px;">
+
+        <span class="{{ .color }}">{{ .symbol
         | replaceRE "0rparen" ")"
         | replaceRE "0lparen" "("
         | replaceRE "0rsqparen" "]"

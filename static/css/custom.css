@@ -62,3 +62,10 @@ h2 > span {
 .toc ol {
   margin-left: 1.5em;
 }
+input[type="checkbox"]:disabled + label {
+  color: gray;
+  cursor: not-allowed;
+}
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}
