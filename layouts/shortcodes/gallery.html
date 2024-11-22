@@ -72,7 +72,7 @@
 
     {{ $fantasyVersionFilename := printf "%s/%s-fantasy.webp" $subdir .baseName }}
     {{ $fantasyImage := resources.Get $fantasyVersionFilename }}
-    {{ $jpgVersion := $fantasyImage.Resize "512x512 Lancoz" }}
+    {{ $jpgVersion := $fantasyImage.Resize "512x512 Lanczos" }}
     {{ $jpgVersion := $jpgVersion.Process "jpg" }}
 
     {{ $videoFilenameAscii := printf "assets/%s/%s-ascii.mp4" $subdir .baseName }}
