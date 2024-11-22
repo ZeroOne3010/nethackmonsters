@@ -67,7 +67,7 @@
     {{ $pngVersion := $retroImage.Resize "512x512 NearestNeighbor" }}
     {{ $pngVersion := $pngVersion.Process "png" }}
 
-    {{ $smallRetroImage := $retroImage.Resize "64x64 NearestNeighbor" }}
+    {{ $smallRetroImage := $retroImage.Resize "64x64 Lanczos" }}
     {{ $smallRetroImage := $smallRetroImage.Process "gif" }}
 
     {{ $fantasyVersionFilename := printf "%s/%s-fantasy.webp" $subdir .baseName }}
