@@ -79,13 +79,14 @@
     {{ $videoFilenameFantasy := printf "assets/%s/%s-fantasy.mp4" $subdir .baseName }}
     {{ $videoExistsAscii := (fileExists (printf "static/%s" $videoFilenameAscii)) }}
     {{ $videoExistsFantasy := (fileExists (printf "static/%s" $videoFilenameFantasy)) }}
+    {{ $name := .name | replaceRE "_" " " }}
 
     <div class="gallery-item" id="{{ .name }}">
       <h2>
         <img class="small-retro" 
              src="{{ $smallRetroImage.RelPermalink }}" 
-             alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
-             title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             alt="{{ $name }} in retro gaming inspired style"
+             title="{{ $name }} in retro gaming inspired style"
              style="display: none; height: 64px; width: 64px;">
 
         <span class="{{ .color }}">{{ .symbol
@@ -100,7 +101,7 @@
         | replaceRE "0at" "@"
         | replaceRE "0colon" ":"
         | replaceRE "0semi" ";" }}</span>
-        <a href="https://nethackwiki.com/wiki/{{ .name }}">{{ .name | replaceRE "_" " " }}</a>
+        <a href="https://nethackwiki.com/wiki/{{ .name }}">{{ $name }}</a>
       </h2>
 
       <picture class="retro">
@@ -108,8 +109,8 @@
         <img class="image-to-video" 
              src="{{ $pngVersion.RelPermalink }}" 
              loading="eager" 
-             alt="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
-             title="{{ .name | replaceRE "_" " " }} in retro gaming inspired style"
+             alt="{{ $name }} in retro gaming inspired style"
+             title="{{ $name }} in retro gaming inspired style"
              width="{{ $pngVersion.Width }}"
              height="{{ $pngVersion.Height }}"
              {{ if $videoExistsAscii }}data-video-src="../{{ $videoFilenameAscii }}"{{ end }}>
@@ -120,8 +121,8 @@
         <img class="image-to-video" 
              src="{{ $jpgVersion.RelPermalink }}" 
              loading="lazy" 
-             alt="{{ .name | replaceRE "_" " " }} in fantasy movie style"
-             title="{{ .name | replaceRE "_" " " }} in fantasy movie style"
+             alt="{{ $name }} in fantasy movie style"
+             title="{{ $name }} in fantasy movie style"
              width="{{ $jpgVersion.Width }}"
              height="{{ $jpgVersion.Height }}"
              {{ if $videoExistsFantasy }}data-video-src="../{{ $videoFilenameFantasy }}"{{ end }}>
