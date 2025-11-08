@@ -69,3 +69,6 @@ input[type="checkbox"]:disabled + label {
 input[type="checkbox"]:disabled {
   cursor: not-allowed;
 }
+@view-transition {
+  navigation: auto;
+}
